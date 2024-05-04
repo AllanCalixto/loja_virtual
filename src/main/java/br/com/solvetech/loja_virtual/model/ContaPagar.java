@@ -3,7 +3,6 @@ package br.com.solvetech.loja_virtual.model;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Date;
-import java.util.Objects;
 
 import javax.persistence.ConstraintMode;
 import javax.persistence.Entity;
@@ -21,7 +20,6 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
 import br.com.solvetech.loja_virtual.enums.StatusContaPagar;
-import br.com.solvetech.loja_virtual.enums.StatusContaReceber;
 
 @Entity
 @Table(name = "conta_pagar")
