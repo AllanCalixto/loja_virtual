@@ -17,18 +17,20 @@ import javax.persistence.Table;
 @Entity
 @Table(name = "avaliacao_produto")
 @SequenceGenerator(name = "seq_avaliacao_produto", sequenceName = "seq_avaliacao_produto", allocationSize = 1, initialValue = 1)
-public class AvaliacaoProduto implements Serializable{
+public class AvaliacaoProduto implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "seq_avaliacao_produto")
 	private Long id;
-	
+
+	private String descricao;
+
 	@ManyToOne
 	@JoinColumn(name = "pessoa_id", nullable = false, foreignKey = @ForeignKey(value = ConstraintMode.CONSTRAINT, name = "pessoa_fk"))
 	private Pessoa pessoa;
-	
+
 	@ManyToOne
 	@JoinColumn(name = "produto_id", nullable = false, foreignKey = @ForeignKey(value = ConstraintMode.CONSTRAINT, name = "produto_fk"))
 	private Produto produto;
@@ -39,6 +41,14 @@ public class AvaliacaoProduto implements Serializable{
 
 	public void setId(Long id) {
 		this.id = id;
+	}
+
+	public String getDescricao() {
+		return descricao;
+	}
+
+	public void setDescricao(String descricao) {
+		this.descricao = descricao;
 	}
 
 	public Pessoa getPessoa() {
@@ -73,8 +83,5 @@ public class AvaliacaoProduto implements Serializable{
 		AvaliacaoProduto other = (AvaliacaoProduto) obj;
 		return Objects.equals(id, other.id);
 	}
-	
-	
-	
-	
+
 }
