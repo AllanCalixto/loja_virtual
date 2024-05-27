@@ -15,6 +15,7 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import br.com.solvetech.loja_virtual.Application;
@@ -185,5 +186,37 @@ class LojaVirtualApplicationTests extends TestCase{
 		acessoRepository.deleteById(acesso.getId());
 		
 	}
+	
+	@Test
+	public void testRestApiAcessoDesc() throws JsonProcessingException, Exception {
+		DefaultMockMvcBuilder builder = MockMvcBuilders.webAppContextSetup(this.wac);
+		MockMvc mockMvc = builder.build();
+		
+		Acesso acesso = new Acesso();
+		acesso.setDescricao("ROLE_TESTE_OBTER_LIST");
+		
+		acesso = acessoRepository.save(acesso);
+		
+		ObjectMapper objectMapper = new ObjectMapper();
+		
+		ResultActions retornoApi = mockMvc
+				.perform(MockMvcRequestBuilders.get("/buscarPorDesc/OBTER_LIST")
+				.content(objectMapper.writeValueAsString(acesso))
+				.accept(MediaType.APPLICATION_JSON)
+				.contentType(MediaType.APPLICATION_JSON));
+		
 
+		assertEquals(200, retornoApi.andReturn().getResponse().getStatus());
+		
+		List<Acesso> retornoApiList = objectMapper
+				.readValue(retornoApi.andReturn()
+				.getResponse().getContentAsString(), new TypeReference<List<Acesso>> () {});
+		
+		assertEquals(1, retornoApiList.size());
+		assertEquals(acesso.getDescricao(), retornoApiList.get(0).getDescricao());
+		
+		acessoRepository.deleteById(acesso.getId());
+		
+	}
+	
 }

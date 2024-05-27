@@ -1,5 +1,7 @@
 package br.com.solvetech.loja_virtual.controller;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -52,6 +54,13 @@ public class AcessoController {
 	public ResponseEntity<Acesso> obterAcesso(@PathVariable("id") Long id) {
 		Acesso acesso = acessoRepository.findById(id).get();
 		return new ResponseEntity<Acesso>(acesso, HttpStatus.OK);
+	}
+	
+	@GetMapping("**/obterPorDesc/{desc}")
+	@ResponseBody
+	public ResponseEntity<List<Acesso>> obterPorDesc(@PathVariable("desc") String desc) {
+		List<Acesso> acesso = acessoRepository.buscarAcessoDesc(desc);
+		return new ResponseEntity<List<Acesso>>(acesso, HttpStatus.OK);
 	}
 
 }
