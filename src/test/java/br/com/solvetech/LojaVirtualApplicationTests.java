@@ -144,9 +144,9 @@ class LojaVirtualApplicationTests extends TestCase{
 		
 		assertEquals(acesso.getDescricao(), acessoRetorno.getDescricao());
 		
+		assertEquals(acesso.getId(), acessoRetorno.getId());
+		
 	}
-	
-	
 	
 	
 	@Test
@@ -154,28 +154,15 @@ class LojaVirtualApplicationTests extends TestCase{
 		
 		Acesso acesso = new Acesso();
 		acesso.setDescricao("ROLE_ADMIN");
-		/* Gravou no banco de dados*/
 		acesso = acessoController.salvarAcesso(acesso).getBody();
 		assertEquals(true, acesso.getId() > 0 );
-		
-		/* Validar dados salvos da forma correta*/
 		assertEquals("ROLE_ADMIN", acesso.getDescricao());
-		
-		/* Teste de carregamento */
-		
 		Acesso acesso2 = acessoRepository.findById(acesso.getId()).get();
 		assertEquals(acesso.getId(), acesso2.getId());
-		
-		/* Teste de Delete */
-		
 		acessoRepository.deleteById(acesso2.getId());
-		
-		acessoRepository.flush(); /* Roda esse sql de delete no banco de dados */
-		
+		acessoRepository.flush();
 		Acesso acesso3 = acessoRepository.findById(acesso2.getId()).orElse(null);
 		assertEquals(true, acesso3 == null);
-		
-		/* Teste de query */
 		
 		acesso = new Acesso();
 		acesso.setDescricao("ROLE_ALUNO");
